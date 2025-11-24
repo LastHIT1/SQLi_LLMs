@@ -1,5 +1,8 @@
-# LLM Guardrail Service (blank template)
+# Pull from official Ollama image for latest image
+FROM ollama/ollama:latest
 
-FROM python:3.11-slim
+# Expose the default Ollama server port
+EXPOSE 11434
 
-WORKDIR /app
+# Reminder: pull models AFTER running the container:
+# docker exec -it <container> ollama pull llama3
