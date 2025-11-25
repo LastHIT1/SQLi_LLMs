@@ -1,0 +1,67 @@
+services:
+    gateway:
+        build: ./gateway
+        ports:
+            - "8080:80"
+        depends_on:
+            - guardrail
+        networks:
+            - sentient-network
+    guardrail:
+        build: ./guardrail
+        command: uv run uvicorn main:app --reload --workers 1 --host 0.0.0.0 --port 5000
+        ports:
+            - "5000:5000"
+        env_file:
+            - ./guardrail/.env
+        depends_on:
+            - test-app
+            - cache
+        networks:
+            - sentient-network
+        develop:
+            watch:
+                - action: sync
+                  path: ./guardrail/
+                  target: /app
+                - action: rebuild
+                  path: ./guardrail/pyproject.toml
+    test-app:
+        build: ./test-app
+        command: uv run manage.py runserver 0.0.0.0:8000
+        networks:
+            - sentient-network
+        depends_on:
+            - database
+            - cache
+        develop:
+            watch:
+                - action: sync
+                  path: ./test-app
+                  target: /app
+                - action: rebuild
+                  path: ./test-app/pyproject.toml
+    database:
+        build: ./database
+        ports:
+            - "5432:5432"
+        volumes:
+            - db_data:/var/lib/postgresql/data
+        networks:
+            - sentient-network
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+    cache:
+        image: redis:8-alpine
+        ports:
+            - "6379:6379"
+        networks:
+            - sentient-network
+volumes:
+    db_data:
+
+
+networks:
+    sentient-network:
+        driver: bridge

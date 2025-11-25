@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="bg-fiu-blue text-white p-4 rounded mb-4">
+            <h1 class="mb-2">Welcome to FIU BookStore</h1>
+            <p class="mb-0 text-fiu-gold">Discover your next great read from our collection</p>
+        </div>
+        <form method="get" action="/" class="d-flex">
+            <input type="text" name="q" class="form-control form-control-lg me-2" placeholder="Search by title or author..." value="{{ search_query }}" style="border: 2px solid var(--fiu-blue);">
+            <button type="submit" class="btn btn-fiu-gold btn-lg px-4">Search</button>
+        </form>
+    </div>
+</div>
+
+{% if error_message %}
+<div class="alert alert-danger">
+    <strong>Error:</strong> {{ error_message }}
+</div>
+{% endif %}
+
+{% if search_query %}
+<div class="mb-3">
+    <span class="text-muted">Showing results for: </span>
+    <span class="fw-bold text-fiu-blue">"{{ search_query }}"</span>
+    <a href="/" class="ms-2 text-fiu-gold">Clear search</a>
+</div>
+{% endif %}
+
+<div class="row">
+    {% for book in books %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="position-relative">
+                <img src="{{ book.cover_image }}" class="card-img-top" alt="{{ book.title }}" style="height: 280px; object-fit: cover;">
+                <span class="position-absolute top-0 end-0 m-2 badge bg-fiu-gold">${{ book.price }}</span>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title text-fiu-blue">{{ book.title }}</h5>
+                <p class="card-text text-muted mb-2"><em>by {{ book.author }}</em></p>
+                <p class="card-text small">{{ book.description|truncatewords:15 }}</p>
+            </div>
+            <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+                <small class="text-muted">{{ book.published_year }}</small>
+                <a href="{% url 'book_detail' book.id %}" class="btn btn-outline-fiu-gold btn-sm">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert bg-fiu-blue text-white text-center py-5">
+            <h4>No books found</h4>
+            {% if search_query %}
+            <p class="mb-0">Try a different search term or <a href="/" class="text-fiu-gold">browse all books</a></p>
+            {% else %}
+            <p class="mb-0">Check back soon for new arrivals!</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

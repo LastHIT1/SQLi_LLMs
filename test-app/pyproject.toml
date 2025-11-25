@@ -1,0 +1,14 @@
+[project]
+name = "test-app"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "crispy-bootstrap5>=2025.4",
+    "django~=5.2.0",
+    "django-crispy-forms~=2.0",
+    "django-redis~=6.0.0",
+    "psycopg[binary]~=3.2.0",
+    "redis~=7.1.0",
+]
