@@ -3,6 +3,7 @@ import argparse
 import sys
 import time
 import csv
+import os
 
 class bcolors:
     HEADER = '\033[95m'
@@ -21,7 +22,11 @@ def attack(url, payload_file, mode, delay=0.05):
         5: "Everything_Enabled"
     }
 
-    csv_filename = f"attack_results_mode_{mode}_{mode_names[mode]}.csv"
+    results_dir = "attack/results/"
+    if not os.path.exists(results_dir):
+        os.makedirs(results_dir)
+    filname_only = f"attack_results_mode_{mode}_{mode_names[mode]}.csv"
+    csv_filename = os.path.join(results_dir, filname_only)
 
     print(f"{bcolors.HEADER}[*] Starting attack on target: {url}")
     print(f"[*] with mode: {mode} ({mode_names[mode]}){bcolors.ENDC}")
