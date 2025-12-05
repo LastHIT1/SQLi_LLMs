@@ -4,24 +4,21 @@ import sys
 import time
 import csv
 
-# Color for terminal output
 class bcolors:
     HEADER = '\033[95m'
     OKGREEN = '\033[92m'
     WARNING = '\033[93m'
     FAIL = '\033[91m'
     ENDC = '\033[0m'
-
-
 def attack(url, payload_file, mode, delay=0.05):
     PARAM = "q"
-    
-    # What security feature is on
+
     mode_names = {
         1: "No_Security",
         2: "LLM Only",
         3: "ML Only",
-        4: "Filter Only"
+        4: "Filter Only",
+        5: "Everything_Enabled"
     }
 
     csv_filename = f"attack_results_mode_{mode}_{mode_names[mode]}.csv"
@@ -39,7 +36,7 @@ def attack(url, payload_file, mode, delay=0.05):
 
     payload_data =[]
 
-    # Open csv file
+    # Change from .txt to .csv
     try:
         with open(payload_file, "r", encoding='utf-8') as f:
             reader = csv.reader(f)
@@ -49,7 +46,7 @@ def attack(url, payload_file, mode, delay=0.05):
     except FileNotFoundError:
         print(f"{bcolors.FAIL}Payload file not found: {payload_file}{bcolors.ENDC}")
         sys.exit(1)
-
+    
     session = requests.Session()
     session.headers.update({"User-Agent": "SQLi-Attack-Script/1.0"})
 
@@ -69,11 +66,19 @@ def attack(url, payload_file, mode, delay=0.05):
                 end_time = time.perf_counter()
                 latency = end_time - start_time
                 
-                if response.status_code == 403 or "Security Alert" in response.text or "Threat type classification" in response.text:
+                res_lower = response.text.lower()
+
+                if (response.status_code == 403 or 
+                    "security alert" in res_lower or 
+                    "threat type classification" in res_lower or 
+                    "sql injection blocked" in res_lower or 
+                    "sql injection detected" in res_lower or
+                    "guardrail" in res_lower or        
+                    "attack detected" in res_lower):
                     status_text = "BLOCKED"
                     print(f"{bcolors.FAIL}[BLOCKED] {bcolors.ENDC} {payload}")
 
-                elif "database error" in response.text.lower() or "unterminated quoted string" in response.text.lower() or "syntax error" in response.text.lower():
+                elif "database error" in res_lower or "unterminated quoted string" in res_lower or "syntax error" in res_lower:
                     status_text = "VULNERABLE"
                     print(f"{bcolors.WARNING}[VULNERABLE] {bcolors.ENDC} {payload}")
 
@@ -123,9 +128,18 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Perform a brute-force attack on a login page.")
     parser.add_argument("--url", default="http://localhost:8080/", help="Target URL")
     parser.add_argument("--file", default="payloads.csv", help="File with payloads")
-    parser.add_argument("mode", type=int, choices=[1, 2, 3, 4], help="Select test mode: 1 = No Security, 2 = LLM Only, 3 = ML Only, 4 = Filter Only")
-    parser.add_argument("--delay", type=float, default=0.05, help="Delay between requests in seconds")
+    parser.add_argument("mode", type=int, choices=[1, 2, 3, 4, 5], help="Select test mode: 1 = No Security, 2 = LLM Only, 3 = ML Only, 4 = Filter Only, 5 = Everything Enabled")
+    parser.add_argument("--delay", type=float, default=None, help="Delay between requests in seconds")
 
     args = parser.parse_args()
+    if args.delay is None:
+        if args.mode in [2, 5]:
+            print(f"{bcolors.WARNING}[!] Heavy processing mode detected (LLM/ML). Auto-setting delay to 2.0s.{bcolors.ENDC}")
+            args.delay = 2.5
+        elif args.mode in [3]:
+            print(f"{bcolors.WARNING}[!] Heavy processing mode detected (ML Only). Auto-setting delay to 1.0s.{bcolors.ENDC}")
+            args.delay = 1.0
+        else:
+            args.delay = 0.05
 
     attack(args.url, args.file, args.mode, args.delay)
