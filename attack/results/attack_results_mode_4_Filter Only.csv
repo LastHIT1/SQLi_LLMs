@@ -1,0 +1,81 @@
+Mode,Payload,Expected,Status,Latency(s),Classification
+4,hello world,benign,PASSED,0.0634,True Negative
+4,' OR 1=1 --,malicious,PASSED,0.0510,False Negative
+4,python programming,benign,PASSED,0.0536,True Negative
+4,"' UNION SELECT 1,2,3 --",malicious,VULNERABLE,0.0515,False Negative
+4,1; DROP TABLE users,malicious,PASSED,0.0501,False Negative
+4,search query,benign,PASSED,0.0586,True Negative
+4,' AND USER IS NULL,malicious,BLOCKED,0.0541,True Positive
+4,1' OR '1' = '1,malicious,PASSED,0.0795,False Negative
+4,' OR '1'='1,malicious,PASSED,0.0652,False Negative
+4,funny cats,benign,PASSED,0.0552,True Negative
+4,' HAVING 1=1 --,malicious,VULNERABLE,0.0618,False Negative
+4,' exec xp_cmdshell,malicious,BLOCKED,0.0671,True Positive
+4,' OR 0=0 --,malicious,PASSED,0.0757,False Negative
+4,order history,benign,PASSED,0.0704,True Negative
+4,1' OR '1'='1'--,malicious,PASSED,0.0765,False Negative
+4,' GROUP BY 1 --,malicious,PASSED,0.0748,False Negative
+4,"' UNION ALL SELECT NULL, NULL --",malicious,VULNERABLE,0.1196,False Negative
+4,customer support,benign,PASSED,0.0702,True Negative
+4,' OR 2>1,malicious,BLOCKED,0.0623,True Positive
+4,admin'/*,malicious,VULNERABLE,0.0631,False Negative
+4,' OR 'a'='a,malicious,PASSED,0.0654,False Negative
+4,apple pie,benign,PASSED,0.0708,True Negative
+4,' OR TRUE --,malicious,PASSED,0.1198,False Negative
+4,best restaurants,benign,PASSED,0.0798,True Negative
+4,1'1,malicious,BLOCKED,0.0770,True Positive
+4,' WHERE 1=1--,malicious,BLOCKED,0.0925,True Positive
+4,login page,benign,PASSED,0.0588,True Negative
+4,1=1,malicious,PASSED,0.0716,False Negative
+4,' AND 1=0,malicious,BLOCKED,0.0723,True Positive
+4,"' UNION SELECT null, null, null, null --",malicious,VULNERABLE,0.0719,False Negative
+4,' OR '1'='1' /*,malicious,VULNERABLE,0.0679,False Negative
+4,1 OR 1=1,malicious,PASSED,0.0932,False Negative
+4,' OR 1=1/*,malicious,VULNERABLE,0.0974,False Negative
+4,new york city,benign,PASSED,0.0712,True Negative
+4,admin' --,malicious,PASSED,0.0627,False Negative
+4,' OR 1=1#,malicious,BLOCKED,0.0646,True Positive
+4,about us,benign,PASSED,0.0637,True Negative
+4,' OR 'x'='x,malicious,PASSED,0.0641,False Negative
+4,' OR SLEEP(5) --,malicious,VULNERABLE,0.0662,False Negative
+4,' OR EXISTS(SELECT * FROM users) --,malicious,BLOCKED,0.1169,True Positive
+4,1 AND SLEEP(5),malicious,PASSED,0.0649,False Negative
+4,"' UNION SELECT 1, version(), user(), 4 --",malicious,BLOCKED,0.0528,True Positive
+4,'; DROP TABLE users; --,malicious,VULNERABLE,0.0564,False Negative
+4,admin' OR '1'='1,malicious,PASSED,0.0681,False Negative
+4,GROUP BY 2--,malicious,PASSED,0.0921,False Negative
+4,' OR WAITFOR DELAY '0:0:5' --,malicious,BLOCKED,0.0722,True Positive
+4,' OR 'a'='a' --,malicious,PASSED,0.0722,False Negative
+4,WHERE 1=1--,malicious,PASSED,0.0856,False Negative
+4,' OR 1=1--,malicious,PASSED,0.0813,False Negative
+4,' OR 1=1,malicious,BLOCKED,0.0689,True Positive
+4,javascript tutorial,benign,PASSED,0.0545,True Negative
+4,1; SELECT * FROM users,malicious,PASSED,0.0528,False Negative
+4,"' UNION ALL SELECT 1,2,3,4 --",malicious,VULNERABLE,0.0620,False Negative
+4,' OR CURRENT_USER()=CURRENT_USER(),malicious,BLOCKED,0.0920,True Positive
+4,' OR 'text'='text',malicious,BLOCKED,0.0631,True Positive
+4,' OR '1'='1' #,malicious,BLOCKED,0.0668,True Positive
+4,password reset,benign,PASSED,0.0783,True Negative
+4,terms of service,benign,PASSED,0.0665,True Negative
+4,' AND pg_sleep(5) --,malicious,VULNERABLE,0.0574,False Negative
+4,"' UNION SELECT name, password, email FROM users --",malicious,BLOCKED,0.0522,True Positive
+4,ORDER BY 3--,malicious,PASSED,0.0611,False Negative
+4,' OR 1=1 AND 1=0,malicious,BLOCKED,0.0604,True Positive
+4,1 AND 1=0,malicious,PASSED,0.0653,False Negative
+4,contact us,benign,PASSED,0.0730,True Negative
+4,"1' AND ASCII(SUBSTRING(username,1,1))=97 --",malicious,BLOCKED,0.0976,True Positive
+4,"' UNION SELECT table_name,NULL,NULL FROM information_schema.tables --",malicious,VULNERABLE,0.0879,False Negative
+4,machine learning,benign,PASSED,0.0867,True Negative
+4,san francisco,benign,PASSED,0.0512,True Negative
+4,"' OR IF(1=1, SLEEP(5), 0) --",malicious,VULNERABLE,0.0558,False Negative
+4,1' OR '1'='1'#,malicious,BLOCKED,0.0684,True Positive
+4,' OR 1 IN (SELECT 1) --,malicious,PASSED,0.0715,False Negative
+4,' WHERE 1=0--,malicious,BLOCKED,0.0534,True Positive
+4,' OR NOT FALSE--,malicious,PASSED,0.0765,False Negative
+4,"' UNION SELECT column_name,NULL,NULL FROM information_schema.columns --",malicious,VULNERABLE,0.0924,False Negative
+4,' OR EXISTS(SELECT * FROM information_schema.tables) --,malicious,PASSED,0.0752,False Negative
+4,data science,benign,PASSED,0.0645,True Negative
+4,"1' AND SUBSTRING(version(),1,1)='5' --",malicious,PASSED,0.0702,False Negative
+4,' OR '1'='1' AND '1'='1,malicious,PASSED,0.1276,False Negative
+4,'; UPDATE users SET password='password'; --,malicious,BLOCKED,0.0904,True Positive
+4,' OR 1=1 LIMIT 1--,malicious,PASSED,0.0865,False Negative
