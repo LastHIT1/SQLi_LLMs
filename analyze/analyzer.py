@@ -103,6 +103,42 @@ def save_metrics_table_image(metrics_df):
     print(f"[+] Performance metrics table saved to {save_path}")
     plt.close()
 
+def save_bypass_table_image(bypass_df):
+    top_5 = bypass_df.head(5).copy()
+
+    if 'Payload' not in top_5.columns:
+        top_5 = top_5.reset_index()
+
+    top_5['Payload'] = top_5['Payload'].apply(lambda x: (x[:50] + '...' if len(x) > 50 else x))
+
+    fig, ax = plt.subplots(figsize=(14, len(top_5) * 1.0 + 1))
+    ax.axis('tight')
+    ax.axis('off')
+
+    table = ax.table(cellText=top_5.values,
+                     colLabels=top_5.columns,
+                     cellLoc='center',
+                     loc='center')
+    
+    table.auto_set_font_size(False)
+    table.set_fontsize(10)
+    table.scale(1.2, 1.5)
+
+    for (row, col), cell in table.get_celld().items():
+        if row == 0:
+            cell.set_text_props(weight='bold', color='white')
+            cell.set_facecolor('#8b0000') 
+        elif row % 2 == 1:
+             cell.set_facecolor('#f9e6e6')
+    
+    plt.title('Top 5 Bypass Attempts', fontsize=16, weight='bold', pad=20)
+    plt.tight_layout()
+
+    save_path = f"{OUTPUT_DIR}/top_5_bypass_attempts.png"
+    plt.savefig(save_path, bbox_inches='tight', dpi=300)
+    print(f"[+] Top 5 bypass attempts table saved to {save_path}")
+    plt.close()
+
 def plot_performance(metrics_df):
     plt.figure(figsize=(12, 8))
 
@@ -162,6 +198,9 @@ def analyze_bypass(df):
 
     high_value_targets.to_csv(f"{OUTPUT_DIR}/top_bypass_attempts.csv")
     print(f"\n[+] Top bypass attempts saved to {OUTPUT_DIR}/top_bypass_attempts.csv")
+
+    print("[*] Generating Top 5 Bypasses Image...")
+    save_bypass_table_image(high_value_targets)
 
 def main():
     print("Web Application Firewall Attack Results Analyzer")
