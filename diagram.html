@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SQL Injection Detection System</title>
@@ -150,6 +152,7 @@
         .arrow-line.green {
             background: #3fb950;
         }
+
         .arrow-line.green::after {
             border-left-color: #3fb950;
         }
@@ -157,6 +160,7 @@
         .arrow-line.blue {
             background: #58a6ff;
         }
+
         .arrow-line.blue::after {
             border-left-color: #58a6ff;
         }
@@ -164,6 +168,7 @@
         .arrow-line.orange {
             background: #f0883e;
         }
+
         .arrow-line.orange::after {
             border-left-color: #f0883e;
         }
@@ -317,9 +322,17 @@
             border-radius: 2px;
         }
 
-        .legend-item .line.green { background: #3fb950; }
-        .legend-item .line.orange { background: #f0883e; }
-        .legend-item .line.blue { background: #58a6ff; }
+        .legend-item .line.green {
+            background: #3fb950;
+        }
+
+        .legend-item .line.orange {
+            background: #f0883e;
+        }
+
+        .legend-item .line.blue {
+            background: #58a6ff;
+        }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -327,12 +340,14 @@
                 flex-direction: column;
                 gap: 15px;
             }
+
             .arrow {
                 transform: rotate(90deg);
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Multi-Layer SQL Injection Detection System</h1>
@@ -563,4 +578,5 @@
         </p>
     </div>
 </body>
+
 </html>
